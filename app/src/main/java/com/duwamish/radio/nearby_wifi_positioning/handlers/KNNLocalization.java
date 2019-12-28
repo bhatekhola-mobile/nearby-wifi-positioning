@@ -94,13 +94,12 @@ public class KNNLocalization {
         int searchRange[] = new int[M];
         int L_search;
 
-        if (x0 == 0 && y0 == 0) {// 初始定位，没有先验信息，全局搜索
+        if (x0 == 0 && y0 == 0) {
             L_search = M;
             for (int i = 0; i < M; i++) {
                 searchRange[i] = i;
             }
         } else {
-            // 缩减搜索范围
             L_search = 0;
             for (int i = 0; i < M; i++) {
                 if (Math.abs(radioMap[i][N] - x0)

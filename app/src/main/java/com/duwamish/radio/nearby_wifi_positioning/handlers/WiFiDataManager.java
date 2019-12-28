@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 import com.duwamish.radio.nearby_wifi_positioning.util.TransformUtil;
 import com.duwamish.radio.nearby_wifi_positioning.view.NearbyViewController;
 
@@ -51,7 +52,8 @@ public class WiFiDataManager {
         wifiScanTimer = new Timer();
         wifiScanTimerTask = new TimerTask() {
             public void run() {
-                wifiManager.startScan();
+                boolean wifi = wifiManager.startScan();
+                Log.i("WiFiDataManager", "wifi scan started: " + wifi);
             }
         };
         wifiScanTimer.schedule(wifiScanTimerTask, 0, WIFI_SCAN_DELAY);
@@ -61,8 +63,11 @@ public class WiFiDataManager {
         @Override
         public void onReceive(Context context, Intent intent) {
             scanResults = wifiManager.getScanResults();
-            rssScan = new TransformUtil().scanResults2vector(scanResults,
-                    RadioMapModel.getInstance().bssids);
+            Log.i("WiFiDataManager", "found wifis " + scanResults.size());
+            rssScan = new TransformUtil().scanResults2vector(
+                    scanResults,
+                    RadioMapModel.getInstance().bssids
+            );
             new KNNLocalization().start();
         }
     };

@@ -2,6 +2,7 @@ package com.duwamish.radio.nearby_wifi_positioning.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.*;
@@ -153,7 +154,6 @@ public class NearbyViewController extends Activity {
 
     private class NewImageOnClickListener implements View.OnClickListener {
         @Override
-        // 在当前onClick方法中监听点击Button的动作
         public void onClick(View v) {
             String outString = " x: " + result_x0 + "\n" + " y: " + result_y0;
             new AlertDialog.Builder(mainactivity).setTitle("Position coordinates")
@@ -161,5 +161,21 @@ public class NearbyViewController extends Activity {
         }
     }
 
+    private static final int RC_LOCATION = 1;
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == RC_LOCATION) {
+            if (permissions[0].equals(PackageManager.PERMISSION_GRANTED)) {
+                WiFiDataManager.getInstance().startScanWifi();
+            } else {
+                // user rejected permission request
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+    }
 }

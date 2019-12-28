@@ -12,11 +12,11 @@ import java.util.List;
 public class TransformUtil {
     public float[] scanResults2vector(List<ScanResult> scanResults,
                                       HashMap<String, Integer> bssids) {
-        // 生成rssScan数组
+
         float rssScan[] = new float[229];
         int bsscount = 0;
         if (scanResults != null) {
-            // 初始化
+
             for (int i = 0; i < rssScan.length; i++) {
                 rssScan[i] = -200;
             }
